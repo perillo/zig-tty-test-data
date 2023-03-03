@@ -25,3 +25,6 @@ zstring-decode < /tmp/buf-3.1 > data/3.1-with-error-return-traces.out
 zig build-exe -femit-bin=binary src/3.2-with-stack-trace.zig > /dev/null
 ./binary &> /tmp/buf-3.2
 zstring-decode < /tmp/buf-3.2 > data/3.2-with-stack-trace.out
+
+# Write the Zig version.
+zig version > data/VERSION
