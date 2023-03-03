@@ -33,8 +33,8 @@ The Docker file will download and install the latest release from the master
 branch of the Zig compiler, for the current platform.
 
 To run the docker container, use the command `./make run`.  The container is
-configured with bind mounts to the `src` and `data` directory in the
-zig-tty-test-data project root.
+configured with bind mounts to the `src` and `data` directory in the working
+directory.
 
 ### TODO
 
