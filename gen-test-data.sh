@@ -1,7 +1,7 @@
 #!/bin/sh
 set -x
 
-ZIG_DEBUG_COLOR=1
+export ZIG_DEBUG_COLOR=1
 test_data_dir=${1:-"data"}
 
 # 1. Zig build-exe progress messages
