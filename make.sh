@@ -1,29 +1,37 @@
 #!/bin/sh
 set -e
 
-ID=$(id -u)
-NAME=zig-tty-test-data
-CMD=${1:-build}
+docker_name=zig-tty-test-data
+docker_cmd=${1:-""}
 
-case $CMD in
+case "$docker_cmd" in
 	build)
 	    # Ensure the docker user has the same UID as the current user.
-	    sudo docker buildx build -t $NAME --no-cache --build-arg uid=$ID \
-	        --progress tty .
+	    docker_uid="$(id -u)"
+
+	    sudo docker buildx build -t "$docker_name" --no-cache \
+	        --build-arg uid="$docker_uid" --progress tty .
 		;;
 	run)
-        sudo docker run --rm --name ${NAME} -it \
-            --mount type=bind,source="$(pwd)"/src,target=/home/zig/src,readonly \
-            --mount type=bind,source="$(pwd)"/data,target=/home/zig/data \
-            ${NAME}:latest
+        sudo docker run --rm --name "$docker_name" -it \
+            --mount type=bind,source="$(PWD)"/src,target=/home/zig/src,readonly \
+            --mount type=bind,source="$(PWD)"/data,target=/home/zig/data \
+            "$docker_name":latest
 		;;
 	run-sh)
-        sudo docker run --rm --name ${NAME} -it --entrypoint sh ${NAME}:latest
+        sudo docker run --rm --name "$docker_name" -it --entrypoint sh \
+            "$docker_name":latest
         ;;
     clean):
-        rm binary binary.o
+        rm -f binary binary.o
         ;;
-	*)
-	    printf "invalid command: '%s'\n" $CMD
-		;;
+    "")
+        printf "$0: error: the command is required\n"
+        exit 1
+        ;;
+    *)
+       printf "$0: error: invalid command '%s'.\n" "$docker_cmd"
+       exit 1
+       ;;
+
 esac
