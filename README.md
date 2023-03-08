@@ -41,5 +41,5 @@ directory.
   - [ ] Add support for providing a custom version for the Zig compiler, like 
     `0.10.1`.  The `download-zig.py` script already support a custom version.
 
-  - [ ] Currently, only the `x86_64-linux` has been tested.
+  - [ ] Currently, only the `x86_64-linux` target has been tested.
     Windows is probably not supported.
